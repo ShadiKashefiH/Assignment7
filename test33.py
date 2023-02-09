@@ -67,20 +67,20 @@ def show_list():
     print(Products)
 
 def buy():
-    Shopping_list = []
-    shopping_dict = {"ID": choice1, "name":product['name'], "price":choice2*product['price'], "count":choice2}
-    Shopping_list.append(shopping_dict)
-    choice1 = input("Enter ID:")
+    print(Products)
+    I = input("enter id :")
     for product in Products:
-        if product['ID'] == choice1:
-            choice2 = input('Enter count:')
-            if choice2 <= product['count']:
-                y = product['count']-choice2
-            else:
-                print('We do not have enough of this product!')
+        if product["ID"] == I:
+            amount = input("How much?")
+            if amount >= product['count']:
+                Shopping_list = []
+                Shopping_dict= {"ID":[I], "name":[product['name']], "price":[int(product['price'])*amount], "count":[amount]}
+                Shopping_list.append(Shopping_dict)
+                print(Shopping_list)
+            elif amount < product['count']: 
+                print('we do not have enough of this product!')
         else:
-            print("The product doesn't exist!")
-    
+            print('We do not have this product!')
 
 def show_menu():
     print("1- Add")
