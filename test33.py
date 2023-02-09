@@ -1,12 +1,11 @@
+from prettytable import PrettyTable
 Products = []
-id_list = []
 def read_text_from_file():
     f = open('E:\Education\Rio stuff\Python\Session7\database.txt', 'r')
     for line in f:
         result = line.split(',')
-        my_dict= {"ID":result[0], "name":result[1], "price":result[2], "count":result[3]}
+        my_dict= {"ID":result[0], "name":result[1], "price":result[2], "count":result[3].replace('\n','')}
         Products.append(my_dict)
-        id_list.append(result[0])
 
 def add():
     I = input("Enter ID:")
@@ -21,7 +20,7 @@ def add():
 def write_to_database():
     f = open('E:\Education\Rio stuff\Python\Session7\database.txt', 'w+')
     for product in Products:
-        x = ','.join([product['ID'],product['name'],product['price'],product['count']])
+        x = ','.join([product['ID'],product['name'],product['price'],product['count']+"\n"])
         f.write(x)
 
 def delete():
@@ -32,14 +31,14 @@ def delete():
             print("The product was deleted successfully!")
 
 def edit():
-    print(Products)
+    show_list()
     I = input('Enter ID:')
     for product in Products:
         if product["ID"] == I:
             print("1-Edit Name")
             print("2-Edit Price")
             print("3-Edit Count")
-            n = input("Which part do you want to edit?")
+            n = int(input("Which part do you want to edit?"))
             if n == 1:
                 x = input('new name:')
                 product['name'] = x
@@ -64,23 +63,27 @@ def search():
         print("Not found!")
 
 def show_list():
-    print(Products)
+   Products_table = PrettyTable(['ID', 'Name', 'Price', 'Count'])
+   for product in Products:
+    Products_table.add_row([product['ID'], product['name'], product['price'], product['count']])
+    print(Products_table)
+
 
 def buy():
-    print(Products)
+    show_list()
     I = input("enter id :")
     for product in Products:
         if product["ID"] == I:
             amount = input("How much?")
-            if amount >= product['count']:
+            if amount <= product['count']:
                 Shopping_list = []
-                Shopping_dict= {"ID":[I], "name":[product['name']], "price":[int(product['price'])*amount], "count":[amount]}
+                Shopping_dict= {"ID":I, "name":product['name'], "price":int(product['price'])*amount, "count":int(amount)}
                 Shopping_list.append(Shopping_dict)
                 print(Shopping_list)
-            elif amount < product['count']: 
+            elif amount > product['count']: 
                 print('we do not have enough of this product!')
-        else:
-            print('We do not have this product!')
+    else:
+        print('We do not have this product!')
 
 def show_menu():
     print("1- Add")
