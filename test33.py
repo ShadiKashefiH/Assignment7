@@ -63,9 +63,9 @@ def search():
         print("Not found!")
 
 def show_list():
-   Products_table = PrettyTable(['ID', 'Name', 'Price', 'Count'])
-   for product in Products:
-    Products_table.add_row([product['ID'], product['name'], product['price'], product['count']])
+    Products_table = PrettyTable(['ID', 'Name', 'Price', 'Count'])
+    for product in Products:
+        Products_table.add_row([product['ID'], product['name'], product['price'], product['count']])
     print(Products_table)
 
 
@@ -74,13 +74,15 @@ def buy():
     I = input("enter id :")
     for product in Products:
         if product["ID"] == I:
-            amount = input("How much?")
-            if amount <= product['count']:
+            amount = int(input("How much?"))
+            if int(amount) <= int(product['count']):
                 Shopping_list = []
-                Shopping_dict= {"ID":I, "name":product['name'], "price":int(product['price'])*amount, "count":int(amount)}
+                Shopping_dict= {"ID":I, "name":product['name'], "price":int(product['price'])*amount, "count":amount}
+                product['count'] = str(int(product['count']) - int(amount))
                 Shopping_list.append(Shopping_dict)
                 print(Shopping_list)
-            elif amount > product['count']: 
+                break
+            elif int(amount) > int(product['count']): 
                 print('we do not have enough of this product!')
     else:
         print('We do not have this product!')
